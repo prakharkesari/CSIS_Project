@@ -1,0 +1,65 @@
+{
+    "module": "Module 3 \u2014 Kernel & Network Stack Hardening",
+    "total_checks": 16,
+    "passed_or_na": 9,
+    "failed": 7,
+    "compliant_and_na_checks": [
+        "1.1.2.1.2-4 (N/A)",
+        "1.1.2.3.2-3 (N/A)",
+        "7.1.1 (PASS)",
+        "7.1.3 (PASS)",
+        "7.1.5 (PASS)",
+        "7.1.7 (PASS)",
+        "7.1.10 (PASS)",
+        "7.1.11 (PASS)",
+        "7.1.12 (PASS)"
+    ],
+    "failures_by_tier": {
+        "tier_1": [
+            {
+                "cis_id": "1.1.2.1.1",
+                "title": "Ensure /tmp is configured",
+                "message": "/tmp is missing from /etc/fstab.",
+                "vulnerability": "Keeps /tmp in memory or isolated \u2014 prevents /tmp exhaustion from filling the root filesystem."
+            },
+            {
+                "cis_id": "1.1.2.2.2-4",
+                "title": "Ensure nodev, nosuid, and noexec are set on /dev/shm",
+                "message": "/dev/shm is not explicitly secured in /etc/fstab.",
+                "vulnerability": "Shared memory is a favourite attack staging area \u2014 noexec prevents in-memory execution attacks."
+            }
+        ],
+        "tier_2": [
+            {
+                "cis_id": "1.1.1.1",
+                "title": "Ensure mounting of cramfs is disabled",
+                "message": "Missing 'install /bin/false' or 'blacklist' for: ['cramfs']",
+                "vulnerability": "cramfs is never used on modern systems \u2014 reducing loadable module attack surface."
+            },
+            {
+                "cis_id": "1.1.1.3",
+                "title": "Ensure mounting of hfs and hfsplus is disabled",
+                "message": "Missing 'install /bin/false' or 'blacklist' for: ['hfs', 'hfsplus']",
+                "vulnerability": "macOS-only filesystems with no legitimate Linux workstation use \u2014 historical CVE exposure."
+            },
+            {
+                "cis_id": "1.1.1.5",
+                "title": "Ensure mounting of jffs2 is disabled",
+                "message": "Missing 'install /bin/false' or 'blacklist' for: ['jffs2']",
+                "vulnerability": "Flash filesystem \u2014 unmaintained upstream with known out-of-bounds vulnerabilities."
+            },
+            {
+                "cis_id": "1.1.1.8",
+                "title": "Ensure mounting of udf is disabled",
+                "message": "Missing 'install /bin/false' or 'blacklist' for: ['udf']",
+                "vulnerability": "UDF has a long CVE history including kernel panics and privilege escalation via malformed images."
+            },
+            {
+                "cis_id": "1.1.1.11",
+                "title": "Ensure firewire-core module is disabled",
+                "message": "Missing 'install /bin/false' or 'blacklist' for: ['firewire-core']",
+                "vulnerability": "FireWire (IEEE 1394) enables DMA attacks \u2014 physical access can read/write all RAM without OS involvement."
+            }
+        ]
+    }
+}

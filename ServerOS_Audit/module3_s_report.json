@@ -1,0 +1,174 @@
+{
+    "module": "Module 3 \u2014 Kernel & Network Stack Hardening",
+    "total_checks": 30,
+    "passed_or_na": 4,
+    "failed": 26,
+    "compliant_and_na_checks": [
+        "1.5.2 (PASS)",
+        "1.5.5 (PASS)",
+        "3.3.1.14b (PASS)",
+        "1.3.1.4 (PASS)"
+    ],
+    "failures_by_tier": {
+        "tier_1": [
+            {
+                "cis_id": "1.4.2",
+                "title": "Ensure GRUB config permissions are secure",
+                "message": "/boot/grub/grub.cfg: mode 0644, uid=0, gid=0. Expected: mode 400 or 600, owned root:root, not world-readable.",
+                "vulnerability": "World-readable GRUB config reveals kernel params; writable allows boot-time backdoors."
+            },
+            {
+                "cis_id": "1.3.1.1",
+                "title": "Ensure AppArmor is installed and active",
+                "message": "apparmor-utils package NOT installed",
+                "vulnerability": "Without AppArmor, all processes run with unrestricted OS permissions."
+            },
+            {
+                "cis_id": "1.3.1.3",
+                "title": "Ensure no AppArmor profiles are in disabled state",
+                "message": "1 profile(s) are disabled: usr.sbin.rsyslogd",
+                "vulnerability": "A disabled AppArmor profile provides zero protection \u2014 same as having no AppArmor."
+            }
+        ],
+        "tier_2": [
+            {
+                "cis_id": "1.5.1",
+                "title": "Ensure ASLR is enabled (kernel.randomize_va_space = 2)",
+                "message": "Not persisted in sysctl.d (found: None)",
+                "vulnerability": "Without ASLR, buffer overflow exploits use deterministic memory addresses."
+            },
+            {
+                "cis_id": "1.5.3",
+                "title": "Ensure SUID core dumps are disabled (fs.suid_dumpable = 0)",
+                "message": "Live value: fs.suid_dumpable = '2' (expected '0'); Not persisted in sysctl.d (found: None)",
+                "vulnerability": "SUID core dumps can leak credentials and private keys from privileged process memory."
+            },
+            {
+                "cis_id": "1.5.4",
+                "title": "Ensure core dump hard limit is 0",
+                "message": "'* hard core 0' not found in /etc/security/limits.conf or limits.d/",
+                "vulnerability": "Unlimited core dumps are a side-channel for extracting secrets."
+            },
+            {
+                "cis_id": "3.3.1.1",
+                "title": "Ensure IP forwarding is disabled",
+                "message": "Not persisted in sysctl.d (found: None)",
+                "vulnerability": "A forwarding laptop acts as a router, creating unintended network transit paths."
+            },
+            {
+                "cis_id": "3.3.1.4",
+                "title": "Ensure send_redirects (all) is disabled",
+                "message": "Live value: net.ipv4.conf.all.send_redirects = '1' (expected '0'); Not persisted in sysctl.d (found: None)",
+                "vulnerability": "Sending ICMP redirects can misdirect other hosts' routing \u2014 MITM setup step."
+            },
+            {
+                "cis_id": "3.3.1.5",
+                "title": "Ensure send_redirects (default) is disabled",
+                "message": "Live value: net.ipv4.conf.default.send_redirects = '1' (expected '0'); Not persisted in sysctl.d (found: None)",
+                "vulnerability": "Sending ICMP redirects can misdirect other hosts' routing \u2014 MITM setup step."
+            },
+            {
+                "cis_id": "3.3.1.8",
+                "title": "Ensure accept_redirects (all) is disabled",
+                "message": "Live value: net.ipv4.conf.all.accept_redirects = '1' (expected '0'); Not persisted in sysctl.d (found: None)",
+                "vulnerability": "Accepting ICMP redirects lets an attacker silently reroute traffic."
+            },
+            {
+                "cis_id": "3.3.1.9",
+                "title": "Ensure accept_redirects (default) is disabled",
+                "message": "Live value: net.ipv4.conf.default.accept_redirects = '1' (expected '0'); Not persisted in sysctl.d (found: None)",
+                "vulnerability": "Accepting ICMP redirects lets an attacker silently reroute traffic."
+            },
+            {
+                "cis_id": "3.3.1.10",
+                "title": "Ensure secure_redirects (all) is disabled",
+                "message": "Live value: net.ipv4.conf.all.secure_redirects = '1' (expected '0'); Not persisted in sysctl.d (found: None)",
+                "vulnerability": "Even gateway-sourced redirects can be malicious if the gateway is compromised."
+            },
+            {
+                "cis_id": "3.3.1.10b",
+                "title": "Ensure secure_redirects (default) is disabled",
+                "message": "Live value: net.ipv4.conf.default.secure_redirects = '1' (expected '0'); Not persisted in sysctl.d (found: None)",
+                "vulnerability": "Even gateway-sourced redirects can be malicious if the gateway is compromised."
+            },
+            {
+                "cis_id": "3.3.1.14",
+                "title": "Ensure source routing is disabled (all)",
+                "message": "Not persisted in sysctl.d (found: None)",
+                "vulnerability": "Source routing allows senders to bypass firewalls by specifying packet paths."
+            },
+            {
+                "cis_id": "3.3.1.16",
+                "title": "Ensure martian packet logging is enabled",
+                "message": "Live value: net.ipv4.conf.all.log_martians = '0' (expected '1'); Not persisted in sysctl.d (found: None)",
+                "vulnerability": "Martian packets reveal IP spoofing or severe network misconfiguration."
+            },
+            {
+                "cis_id": "3.3.1.18",
+                "title": "Ensure TCP SYN cookies are enabled",
+                "message": "Not persisted in sysctl.d (found: None)",
+                "vulnerability": "Without SYN cookies, a SYN flood can exhaust the connection table (DoS)."
+            },
+            {
+                "cis_id": "3.3.1.12",
+                "title": "Ensure rp_filter (all) is enabled",
+                "message": "Live value: net.ipv4.conf.all.rp_filter = '2' (expected '1'); Not persisted in sysctl.d (found: '2')",
+                "vulnerability": "Without reverse path filtering, spoofed-source packets are accepted."
+            },
+            {
+                "cis_id": "3.3.1.12b",
+                "title": "Ensure rp_filter (default) is enabled",
+                "message": "Live value: net.ipv4.conf.default.rp_filter = '2' (expected '1'); Not persisted in sysctl.d (found: '2')",
+                "vulnerability": "Without reverse path filtering on default, spoofed packets pass on new interfaces."
+            },
+            {
+                "cis_id": "3.3.1.6",
+                "title": "Ensure bogus ICMP error responses are ignored",
+                "message": "Not persisted in sysctl.d (found: None)",
+                "vulnerability": "Bogus ICMP errors are used in DoS amplification attacks."
+            },
+            {
+                "cis_id": "3.3.1.7",
+                "title": "Ensure broadcast ICMP requests are ignored",
+                "message": "Not persisted in sysctl.d (found: None)",
+                "vulnerability": "Responding to broadcast ICMP is the basis of Smurf DoS amplification attacks."
+            },
+            {
+                "cis_id": "3.3.2.3",
+                "title": "Ensure IPv6 accept_redirects (all) is disabled",
+                "message": "Live value: net.ipv6.conf.all.accept_redirects = '1' (expected '0'); Not persisted in sysctl.d (found: None)",
+                "vulnerability": "IPv6 ICMP redirect attacks carry the same MITM risk as IPv4 but are often overlooked."
+            },
+            {
+                "cis_id": "3.3.2.3b",
+                "title": "Ensure IPv6 accept_redirects (default) is disabled",
+                "message": "Live value: net.ipv6.conf.default.accept_redirects = '1' (expected '0'); Not persisted in sysctl.d (found: None)",
+                "vulnerability": "IPv6 ICMP redirect attacks carry the same MITM risk as IPv4 but are often overlooked."
+            },
+            {
+                "cis_id": "3.3.2.7",
+                "title": "Ensure IPv6 Router Advertisements are rejected",
+                "message": "accept_ra live: all=1, default=1; persisted: all=None, default=None. \u26a0 Verify with 'ip -6 route' before applying if using IPv6 SLAAC.",
+                "vulnerability": "A rogue RA can silently replace the default IPv6 gateway and redirect all traffic."
+            },
+            {
+                "cis_id": "3.2.1",
+                "title": "Ensure DCCP kernel module is blacklisted",
+                "message": "'install dccp /bin/false' not found in modprobe.d; 'blacklist dccp' not found in modprobe.d",
+                "vulnerability": "DCCP has known kernel-level vulnerabilities and is never used in practice."
+            },
+            {
+                "cis_id": "3.2.2",
+                "title": "Ensure TIPC kernel module is blacklisted",
+                "message": "'install tipc /bin/false' not found in modprobe.d; 'blacklist tipc' not found in modprobe.d",
+                "vulnerability": "TIPC is a cluster protocol with no workstation use and known CVEs."
+            },
+            {
+                "cis_id": "3.2.4",
+                "title": "Ensure SCTP kernel module is blacklisted",
+                "message": "'install sctp /bin/false' not found in modprobe.d; 'blacklist sctp' not found in modprobe.d",
+                "vulnerability": "SCTP is rarely needed on workstations and has privilege escalation CVEs."
+            }
+        ]
+    }
+}

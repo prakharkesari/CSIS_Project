@@ -1,0 +1,37 @@
+{
+    "module": "Module 5 \u2014 CIS Ubuntu 22.04 LTS Server-Specific Controls",
+    "profile": "L1-Server & L2-Server",
+    "target": "Ubuntu 22.04.5 LTS Server",
+    "benchmark": "CIS Benchmark v3.0.0 (Oct 2025)",
+    "total_checks": 12,
+    "passed_or_na": 10,
+    "failed": 2,
+    "compliant_and_na_checks": [
+        "2.1.20 \u2014 Ensure X window server services are not in use (PASS)",
+        "1.7.1 \u2014 Ensure GDM is removed (PASS)",
+        "2.1.1 \u2014 Ensure autofs services are not in use (PASS)",
+        "2.1.2 \u2014 Ensure avahi daemon services are not in use (PASS)",
+        "2.1.11 \u2014 Ensure print server services are not in use (PASS)",
+        "1.1.2.4.2 \u2014 Ensure nodev option set on /var partition (N/A)",
+        "1.1.2.4.3 \u2014 Ensure nosuid option set on /var partition (N/A)",
+        "1.1.2.5.2-4 \u2014 Ensure nodev, nosuid, noexec options set on /var/tmp partition (N/A)",
+        "1.1.2.6.2-4 \u2014 Ensure nodev, nosuid, noexec options set on /var/log partition (N/A)",
+        "1.1.2.7.2-4 \u2014 Ensure nodev, nosuid, noexec options set on /var/log/audit partition (N/A)"
+    ],
+    "failures_by_tier": {
+        "tier_1": [
+            {
+                "cis_id": "3.1.2",
+                "title": "Ensure wireless interfaces are not available",
+                "message": "Wireless module(s) failed checks:\n  module 'rtw88_8821ce': not install-denied (modprobe -n -v shows no /bin/false entry); currently loaded in kernel (lsmod); not deny-listed in modprobe config",
+                "vulnerability": "An active wireless interface on a server creates an unintended RF attack surface. Wireless kernel drivers have a long CVE history including remote code execution. Servers live on wired LANs \u2014 wireless hardware must be disabled at the kernel module level."
+            },
+            {
+                "cis_id": "1.1.1.9",
+                "title": "Ensure usb-storage kernel module is not available",
+                "message": "module usb_storage is currently loaded (lsmod) | 'install usb_storage /bin/false' not found in modprobe config | 'blacklist usb_storage' not found in modprobe config",
+                "vulnerability": "USB storage is the most common physical vector for introducing malware and exfiltrating data from servers. No USB mass-storage use case exists in a datacenter environment."
+            }
+        ]
+    }
+}

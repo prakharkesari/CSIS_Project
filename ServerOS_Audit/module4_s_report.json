@@ -1,0 +1,109 @@
+{
+    "module": "Module 4 \u2014 Service Surface Audit",
+    "total_checks": 25,
+    "passed_or_na": 11,
+    "failed": 14,
+    "compliant_and_na_checks": [
+        "5.1.19 \u2014 PermitEmptyPasswords no (PASS)",
+        "5.1.21 \u2014 PermitUserEnvironment no (PASS)",
+        "5.1.10 \u2014 HostbasedAuthentication no and IgnoreRhosts yes (PASS)",
+        "5.1.22 \u2014 UsePAM yes (PASS)",
+        "5.1.14 \u2014 LogLevel VERBOSE (PASS)",
+        "5.1.6 \u2014 SSH Ciphers \u2014 no 3des-cbc, arcfour*, aes128-cbc (PASS)",
+        "5.1.12 \u2014 SSH KexAlgorithms \u2014 strong algorithms only (PASS)",
+        "2.2.2 \u2014 rsh-client package not installed (PASS)",
+        "2.2.1 \u2014 NIS (nis package) not installed (PASS)",
+        "2.1.6 \u2014 FTP server daemons not installed or active (PASS)",
+        "2.1.15 \u2014 snmpd not installed or active (PASS)"
+    ],
+    "failures_by_tier": {
+        "tier_1": [
+            {
+                "cis_id": "5.1.1",
+                "title": "sshd_config file permissions (600, root:root)",
+                "message": "Expected 0600 root:root, found 0o644 root:root.",
+                "vulnerability": "World-readable SSH config exposes cipher suite selection and server key paths to any local user."
+            },
+            {
+                "cis_id": "5.1.20",
+                "title": "PermitRootLogin no",
+                "message": "PermitRootLogin is 'without-password', expected 'no'.",
+                "vulnerability": "Direct root SSH login means a brute-forced credential gives immediate full control with no audit trail."
+            },
+            {
+                "cis_id": "5.1.16",
+                "title": "MaxAuthTries <= 4",
+                "message": "MaxAuthTries is 6, expected <= 4.",
+                "vulnerability": "Without this, an attacker can attempt unlimited password guesses per connection before disconnecting."
+            },
+            {
+                "cis_id": "5.1.7",
+                "title": "SSH idle timeout (ClientAliveInterval <= 15, CountMax <= 3)",
+                "message": "ClientAliveInterval=0 (expected <= 15)",
+                "vulnerability": "An unattended idle SSH session left open indefinitely is an open door for anyone with physical access."
+            },
+            {
+                "cis_id": "5.1.13",
+                "title": "LoginGraceTime <= 60 seconds",
+                "message": "LoginGraceTime is 120, expected 1\u201360.",
+                "vulnerability": "Limits the authentication window \u2014 prevents slow brute-force and connection slot exhaustion."
+            },
+            {
+                "cis_id": "2.2.4",
+                "title": "telnet package not installed",
+                "message": "Package 'telnet' is installed.",
+                "vulnerability": "Telnet transmits username, password, and all session data in plaintext \u2014 trivially captured on any shared network."
+            },
+            {
+                "cis_id": "2.2.6",
+                "title": "ftp client package not installed",
+                "message": "Package 'ftp' is installed.",
+                "vulnerability": "FTP sends credentials in cleartext; use sftp or scp instead."
+            },
+            {
+                "cis_id": "4.1.1",
+                "title": "ufw installed and active",
+                "message": "ufw is installed but not active (Status: inactive).",
+                "vulnerability": "Without a firewall, every service listening on any port is reachable from the local network by default."
+            },
+            {
+                "cis_id": "4.1.3",
+                "title": "ufw default incoming policy is DENY",
+                "message": "ufw is not active; cannot evaluate default policy.",
+                "vulnerability": "Fail-closed firewall stance requires ufw to be active with incoming denied by default."
+            },
+            {
+                "cis_id": "4.1.5",
+                "title": "ufw default routed/forwarded policy is DENY",
+                "message": "ufw is not active; cannot evaluate forward policy.",
+                "vulnerability": "A personal laptop must not forward traffic between its interfaces \u2014 that is router behaviour."
+            },
+            {
+                "cis_id": "2.4.1.2",
+                "title": "/etc/crontab permissions 0600, root:root",
+                "message": "/etc/crontab: mode is 0o644 (expected 0600).",
+                "vulnerability": "A world-readable or world-writable crontab lets any user read scheduled commands or inject their own."
+            },
+            {
+                "cis_id": "2.4.1.8",
+                "title": "/etc/cron.d/ directory 0700 root:root; files 0600",
+                "message": "Directory mode is 0o755 (expected 0700); Files with bad permissions: e2scrub_all (mode=0o644)",
+                "vulnerability": "Drop-in cron job files in /etc/cron.d/ must be root-exclusive; other users must not add scheduled tasks here."
+            }
+        ],
+        "tier_3": [
+            {
+                "cis_id": "5.1.8",
+                "title": "AllowTcpForwarding no and X11Forwarding no",
+                "message": "AllowTcpForwarding='yes' (expected 'no'); X11Forwarding='yes' (expected 'no')",
+                "vulnerability": "TCP forwarding tunnels arbitrary traffic through SSH; X11 forwarding exposes your display server remotely."
+            },
+            {
+                "cis_id": "5.1.15",
+                "title": "SSH MACs \u2014 no MD5-based or SHA1-based MACs",
+                "message": "Weak MACs present: umac-64-etm@openssh.com, hmac-sha1-etm@openssh.com, umac-64@openssh.com, hmac-sha1.",
+                "vulnerability": "HMAC-MD5 and HMAC-SHA1 are deprecated; SHA1 collision attacks make message forgery possible."
+            }
+        ]
+    }
+}

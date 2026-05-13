@@ -1,0 +1,124 @@
+{
+    "module": "Module 3 \u2014 Kernel & Network Stack Hardening",
+    "total_checks": 35,
+    "passed_or_na": 20,
+    "failed": 15,
+    "compliant_and_na_checks": [
+        "5.4.2.1 (PASS)",
+        "7.2.5 (PASS)",
+        "7.2.6 (PASS)",
+        "7.2.7 (PASS)",
+        "7.2.8 (PASS)",
+        "5.4.2.7 (PASS)",
+        "7.2.1 (PASS)",
+        "7.2.2 (PASS)",
+        "5.4.2.8 (PASS)",
+        "5.4.2.4 (PASS)",
+        "5.4.1.3 (PASS)",
+        "5.4.1.4 (PASS)",
+        "5.3.3.2.7 (PASS)",
+        "5.3.3.4.1 (PASS)",
+        "5.3.3.4.3 (PASS)",
+        "5.2.4 (PASS)",
+        "5.2.5 (PASS)",
+        "5.2.2 (PASS)",
+        "7.2.9 (PASS)",
+        "7.2.10 (PASS)"
+    ],
+    "failures_by_tier": {
+        "tier_1": [
+            {
+                "cis_id": "5.4.2.6",
+                "title": "Ensure root user umask is configured",
+                "message": "No explicit umask configuration found in /root/.profile or /root/.bashrc. Default may be too permissive.",
+                "vulnerability": "A permissive root umask means newly created root files are world-readable by default."
+            },
+            {
+                "cis_id": "5.4.1.1",
+                "title": "Ensure password expiration is 365 days or less",
+                "message": "PASS_MAX_DAYS is set to 99999 (Expected: <= 365).",
+                "vulnerability": "Without a maximum age, a compromised credential remains valid indefinitely with no forced rotation."
+            },
+            {
+                "cis_id": "5.4.1.5",
+                "title": "Ensure inactive password lock is 30 days or less",
+                "message": "INACTIVE is not configured or disabled.",
+                "vulnerability": "Dormant accounts are ideal targets because legitimate owners don't notice when they're abused."
+            },
+            {
+                "cis_id": "5.3.3.2.2",
+                "title": "Ensure password length is 14 or more",
+                "message": "minlen not configured.",
+                "vulnerability": "Password length is the single most impactful factor in resistance to brute-force and offline dictionary attacks."
+            },
+            {
+                "cis_id": "5.3.3.2.1",
+                "title": "Ensure password changing requires at least 2 different characters",
+                "message": "difok not configured.",
+                "vulnerability": "Without difok, a user can change 'password1' to 'password2' \u2014 meaningless rotation."
+            },
+            {
+                "cis_id": "5.3.3.2.4",
+                "title": "Ensure maximum repeated characters is 3 or less",
+                "message": "maxrepeat not configured.",
+                "vulnerability": "Catches trivially weak passwords like 'aaaa1234' that meet length but not quality requirements."
+            },
+            {
+                "cis_id": "5.3.3.2.6",
+                "title": "Ensure dictionary word checks are enabled",
+                "message": "dictcheck not configured.",
+                "vulnerability": "Blocks use of common English dictionary words \u2014 first target of any password spray attack."
+            },
+            {
+                "cis_id": "5.3.3.3.1",
+                "title": "Ensure password history is 24 or greater",
+                "message": "pam_pwhistory.so not found or remember not set.",
+                "vulnerability": "Prevents reuse of the last 24 passwords \u2014 without it a user immediately re-uses their old password."
+            },
+            {
+                "cis_id": "5.3.3.1.1",
+                "title": "Ensure failed password attempts lockout is 5 or less",
+                "message": "deny not configured in faillock.conf.",
+                "vulnerability": "Core brute-force protection \u2014 without it, an attacker can attempt unlimited passwords at login."
+            },
+            {
+                "cis_id": "5.3.3.1.2",
+                "title": "Ensure lockout time is 15 minutes or longer",
+                "message": "unlock_time not configured.",
+                "vulnerability": "A short lockout window is trivially bypassed \u2014 15 minutes defeats automated brute-force tools."
+            },
+            {
+                "cis_id": "5.2.3",
+                "title": "Ensure a custom sudo log file exists",
+                "message": "logfile parameter is missing from Defaults.",
+                "vulnerability": "Without a dedicated sudo log file, all sudo activity is buried in syslog and easy to miss."
+            },
+            {
+                "cis_id": "5.2.6",
+                "title": "Ensure sudo authentication timeout is configured correctly",
+                "message": "timestamp_timeout not explicitly set.",
+                "vulnerability": "A negative timeout value disables re-prompting entirely \u2014 an unattended terminal stays permanently escalated."
+            },
+            {
+                "cis_id": "5.2.7",
+                "title": "Ensure access to the su command is restricted",
+                "message": "pam_wheel.so is commented out or missing.",
+                "vulnerability": "Without this restriction, any local account with a known password can su to root."
+            }
+        ],
+        "tier_2": [
+            {
+                "cis_id": "5.3.3.1.3",
+                "title": "Ensure root account is locked for failed password attempts",
+                "message": "even_deny_root is missing.",
+                "vulnerability": "Without this, root is exempt from brute-force lockout \u2014 invalidating the lockout protection entirely."
+            },
+            {
+                "cis_id": "5.3.3.2.8",
+                "title": "Ensure password quality rules apply to root",
+                "message": "enforce_for_root is missing.",
+                "vulnerability": "Root setting a weak password while users are forced to use strong ones defeats the entire policy."
+            }
+        ]
+    }
+}
